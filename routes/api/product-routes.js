@@ -8,13 +8,13 @@ router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   try {
-
+    // get all products, include category and tag data
     const productData = await Product.findAll({
       include: [{ model: Category }, { model: Tag }],
     });
-
+    // success
     res.status(200).json(productData);
-
+  // db error
   } catch (err) {
     res.status(500).json(err);
   }
@@ -25,18 +25,18 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-
+    // get product by id, include category and tag data
     const productData = await Product.findByPk(req.params.id, {
       include: [{ model: Category }, { model: Tag }],
     });
-
+    // product id doesn't exist
     if (!productData) {
       res.status(404).json({ message: "Error: Product not found!" });
       return;
     }
-    
+    // success
     res.status(200).json(productData);
-
+  // db error
   } catch (err) {
     res.status(500).json(err);
   }
@@ -119,20 +119,20 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
-
+    // delete product by id
     const productData = await Product.destroy({
       where: {
         id: req.params.id,
       },
     });
-
+    // product id doesn't exist
     if (!productData) {
       res.status(404).json({ message: "Error: Product not found!" });
       return;
     }
-    
+    // success
     res.status(200).json(productData);
-
+  // db error
   } catch (err) {
     res.status(500).json(err);
   }
